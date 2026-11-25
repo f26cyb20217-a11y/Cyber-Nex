@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d18">
+<title>Cyber Nex — Learn Cybersecurity</title>
+
+<style>
+:root{
+--bg:#090d18;
+--panel:#111827;
+--panel2:#151f30;
+--text:#edf2ff;
+--muted:#9aa8bd;
+--green:#70f0b0;
+--blue:#70b7ff;
+--border:rgba(255,255,255,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+background:radial-gradient(ellipse at 75% 0%,rgba(39,93,140,.18),transparent 35%),var(--bg);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif;
+line-height:1.6;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(1160px,92%);margin:auto}
+.topbar{
+position:sticky;top:0;z-index:5;
+border-bottom:1px solid var(--border);
+background:rgba(9,13,24,.95);
+backdrop-filter:blur(14px)
+}
+.topbar-inner{
+min-height:72px;display:flex;
+align-items:center;justify-content:space-between;gap:20px
+}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800}
+.brand-mark{
+display:grid;width:40px;height:40px;place-items:center;
+border-radius:12px;color:#07120e;background:var(--green);
+font-size:16px
+}
+.brand-name span{color:var(--green)}
+.nav{display:flex;gap:22px;color:var(--muted);font-size:14px}
+.nav a:hover{color:var(--green)}
+.hero{
+margin-top:32px;padding:clamp(28px,6vw,65px);
+border:1px solid var(--border);border-radius:25px;
+background:radial-gradient(circle at 88% 30%,rgba(112,240,176,.14),transparent 25%),linear-gradient(135deg,#121b2c,#101827 65%,#10231e)
+}
+.eyebrow{
+color:var(--green);font-size:12px;font-weight:800;
+letter-spacing:1.5px;text-transform:uppercase
+}
+.hero h1{
+max-width:760px;margin:12px 0;
+font-size:clamp(36px,6vw,64px);line-height:1.06
+}
+.hero h1 span{color:var(--green)}
+.hero .description{max-width:660px;color:var(--muted)}
+.button{
+display:inline-flex;align-items:center;justify-content:center;gap:8px;
+margin-top:18px;padding:11px 16px;border:0;border-radius:10px;
+color:#07120e;background:var(--green);font-weight:800
+}
+.button:hover{opacity:.88;transform:translateY(-1px)}
+.button.secondary{color:var(--text);background:var(--panel2);border:1px solid var(--border)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;max-width:640px;margin-top:28px}
+.stat{padding:14px;border:1px solid var(--border);border-radius:14px;background:rgba(9,13,24,.45)}
+.stat strong{display:block;color:var(--green);font-size:22px}
+.stat span{color:var(--muted);font-size:12px}
+.section{padding-top:48px;scroll-margin-top:90px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}
+.section-heading h2{margin-top:4px;font-size:25px}
+.section-heading p:last-child{color:var(--muted);font-size:13px}
+.toolbar{margin-bottom:18px}
+.search{
+width:100%;padding:12px 14px;border:1px solid var(--border);
+border-radius:11px;outline:none;color:var(--text);background:var(--panel)
+}
+.search:focus{border-color:var(--green)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:19px}
+.filter-button{
+padding:8px 12px;border:1px solid var(--border);border-radius:99px;
+color:var(--muted);background:transparent;font-size:12px
+}
+.filter-button:hover,.filter-button.active{
+border-color:rgba(112,240,176,.4);color:var(--green);background:rgba(112,240,176,.08)
+}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.course-card{
+display:flex;flex-direction:column;min-height:250px;padding:19px;
+border:1px solid var(--border);border-radius:18px;
+background:rgba(17,24,39,.88);transition:.2s
+}
+.course-card:hover{transform:translateY(-3px);border-color:rgba(112,240,176,.35)}
+.course-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.course-icon{display:grid;width:43px;height:43px;place-items:center;border-radius:13px;background:#1b2b3c;font-size:21px}
+.tag{padding:4px 9px;border:1px solid var(--border);border-radius:99px;color:var(--blue);font-size:10px}
+.course-card h3{margin-bottom:6px;font-size:17px}
+.course-card p{flex:1;color:var(--muted);font-size:13px}
+.course-meta{display:flex;justify-content:space-between;gap:8px;margin-top:13px;color:#8291a8;font-size:11px}
+.course-card .button{align-self:flex-start}
+.progress-track{height:6px;overflow:hidden;margin-top:12px;border-radius:99px;background:#263247}
+.progress-fill{height:100%;border-radius:inherit;background:var(--green)}
+.empty-state{display:none;padding:30px;color:var(--muted);text-align:center}
+.notice{
+display:flex;gap:12px;padding:16px;border:1px solid rgba(112,183,255,.2);
+border-radius:14px;color:var(--muted);background:rgba(112,183,255,.06);font-size:13px
+}
+.notice strong{color:var(--text)}
+#courseView{display:none}
+.back-button{
+margin:28px 0 15px;padding:8px 12px;border:1px solid var(--border);
+border-radius:9px;color:var(--text);background:var(--panel)
+}
+.back-button:hover{color:var(--green)}
+.course-banner{
+padding:26px;border:1px solid var(--border);border-radius:20px;
+background:linear-gradient(135deg,#121b2c,#10231e)
+}
+.course-banner h1{margin:6px 0;font-size:clamp(27px,4vw,40px)}
+.course-banner p{max-width:780px;color:var(--muted)}
+.lesson-layout{display:grid;grid-template-columns:300px 1fr;gap:16px;margin-top:17px}
+.lesson-list,.lesson-content{border:1px solid var(--border);border-radius:16px;background:var(--panel)}
+.lesson-list{padding:14px}
+.lesson-list h3{padding:3px 8px 10px;font-size:14px}
+.lesson-button{
+display:block;width:100%;margin-top:5px;padding:10px;
+border:1px solid transparent;border-radius:9px;color:var(--muted);
+background:transparent;text-align:left;font-size:12px
+}
+.lesson-button:hover,.lesson-button.active{
+border-color:var(--border);color:var(--text);background:var(--panel2)
+}
+.lesson-button.completed{color:var(--green)}
+.lesson-content{min-height:330px;padding:clamp(18px,4vw,30px)}
+.lesson-content h2{margin:5px 0 12px;font-size:25px}
+.lesson-content p{margin:10px 0;color:var(--muted)}
+.lesson-content ul{padding-left:21px;color:var(--muted)}
+.lesson-content li{margin:7px 0}
+.extra-heading{margin:22px 0 5px;color:var(--green);font-size:16px}
+.lesson-callout{
+margin-top:18px;padding:13px;border-left:3px solid var(--green);
+border-radius:8px;color:var(--muted);background:rgba(112,240,176,.06);font-size:13px
+}
+footer{padding:42px 0 25px;color:#75839a;font-size:12px;text-align:center}
+@media(max-width:850px){
+.course-grid{grid-template-columns:repeat(2,1fr)}
+.lesson-layout{grid-template-columns:1fr}
+.lesson-list{max-height:260px;overflow:auto}
+}
+@media(max-width:600px){
+.nav{gap:12px;font-size:12px}
+.nav a:nth-child(3){display:none}
+.course-grid{grid-template-columns:1fr}
+.stats{gap:7px}
+.stat{padding:10px}
+.stat strong{font-size:18px}
+.stat span{font-size:10px}
+.section-heading{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<div class="container topbar-inner">
+<a class="brand" href="#" id="homeLink">
+<span class="brand-mark">CN</span>
+<span class="brand-name">Cyber <span>Nex</span></span>
+</a>
+<nav class="nav">
+<a href="#courses">Courses</a>
+<a href="#roadmap">Roadmap</a>
+<a href="#ethics">Ethics</a>
+</nav>
+</div>
+</header>
+
+<main class="container" id="homePage">
+
+<section class="hero">
+<p class="eyebrow">Learn • Practice • Protect</p>
+<h1>Cybersecurity seekhna <span>yahan se shuru karein.</span></h1>
+<p class="description">
+Networking, Linux aur cybersecurity ke beginner-friendly courses.
+Apni pasand ka course kholein, lessons parhein aur apni progress track karein.
+</p>
+<a class="button" href="#courses">Courses explore karein →</a>
+
+<div class="stats">
+<div class="stat"><strong id="courseCount">6</strong><span>Learning courses</span></div>
+<div class="stat"><strong id="lessonCount">0</strong><span>Lessons completed</span></div>
+<div class="stat"><strong>Beginner</strong><span>Friendly learning path</span></div>
+</div>
+</section>
+
+<section class="section" id="roadmap">
+<div class="section-heading">
+<div><p class="eyebrow">Suggested order</p><h2>Cybersecurity roadmap</h2></div>
+<p>Basics se start karein, phir apni pasand ka area choose karein.</p>
+</div>
+<div class="notice">
+<span>🧭</span>
+<p><strong>Suggested path:</strong> Computer basics → Networking → Linux → Security fundamentals → Defensive security → Web security. Har course apni speed se complete karein.</p>
+</div>
+</section>
+
+<section class="section" id="courses">
+<div class="section-heading">
+<div><p class="eyebrow">Learn at your own pace</p><h2>Choose a course</h2></div>
+<p>Course open karein aur lesson select karke parhna shuru karein.</p>
+</div>
+<div class="toolbar">
+<input class="search" id="searchInput" type="search" placeholder="Course search karein..." aria-label="Search courses">
+</div>
+<div class="filters" id="filters"></div>
+<div class="course-grid" id="courseGrid"></div>
+<p class="empty-state" id="emptyState">Is search ke liye koi course nahi mila.</p>
+</section>
+
+<section class="section" id="ethics">
+<div class="section-heading">
+<div><p class="eyebrow">Learn responsibly</p><h2>Ethical learning zaroori hai</h2></div>
+</div>
+<div class="notice">
+<span>🛡️</span>
+<p><strong>Permission ke baghair kisi system ko test na karein.</strong> Practice sirf apne computer, authorized lab, ya written permission wale environment mein karein. Privacy aur local laws ka hamesha ehtiram karein.</p>
+</div>
+</section>
+
+<footer>Cyber Nex — learn to protect, understand, and use technology responsibly.</footer>
+</main>
+
+<main class="container" id="courseView">
+<button class="back-button" id="backButton">← All courses par wapas</button>
+<section class="course-banner">
+<p class="eyebrow" id="detailCategory"></p>
+<h1 id="detailTitle"></h1>
+<p id="detailDescription"></p>
+<div class="progress-track"><div class="progress-fill" id="detailProgress" style="width:0%"></div></div>
+<p id="detailProgressText"></p>
+</section>
+<div class="lesson-layout">
+<aside class="lesson-list">
+<h3>Course lessons</h3>
+<div id="lessonButtons"></div>
+</aside>
+<article class="lesson-content" id="lessonContent"></article>
+</div>
+<footer>Practice responsibly. Use only systems and labs where you have permission.</footer>
+</main>
+
+<script>
+const courses = [
+{
+id:"computer",
+title:"Computer Fundamentals",
+icon:"💻",
+category:"Foundations",
+level:"Beginner",
+duration:"4 lessons",
+description:"Computer, operating system, files aur basic command line ki bunyaad.",
+lessons:[
+{
+title:"Computer ka basic overview",
+paragraphs:[
+"Computer hardware aur software mil kar kaam karte hain. Hardware physical parts hain, jaise CPU, memory, storage aur network adapter. Software woh programs hain jo computer ko tasks karne ke instructions dete hain.",
+"Cybersecurity seekhne se pehle yeh samajhna faida mand hai ke data computer mein kahan rehta hai aur programs usay kaise use karte hain."
+],
+points:["CPU instructions process karta hai.","RAM temporary working memory hai.","Storage files ko long term save karta hai."]
+},
+{
+title:"Operating systems",
+paragraphs:[
+"Operating system (OS) user, applications aur hardware ke darmiyan kaam karta hai. Windows, Linux aur macOS aam operating systems hain.",
+"Cybersecurity mein OS ki settings, users aur updates samajhna important hota hai."
+],
+points:["User accounts aur permissions ka concept samjhein.","Security updates waqt par install karein.","Unknown software install karne se pehle uski source check karein."]
+},
+{
+title:"Files aur permissions",
+paragraphs:[
+"Files aur folders data ko organize karte hain. Permissions yeh control karti hain ke kaun file ko read, change ya run kar sakta hai.",
+"Least privilege ka matlab hai har user ya program ko sirf utni access dena jitni uske kaam ke liye zaroori ho."
+],
+points:["Important files ka backup rakhein.","Apne account ko lock aur password-protect karein.","Unnecessary admin access se bachein."]
+},
+{
+title:"Command line ka intro",
+paragraphs:[
+"Command line text ke zariye computer se kaam karne ka tareeqa hai. Is se files dekhna, folders navigate karna aur system information samajhna mumkin hota hai.",
+"Shuru mein sirf apne computer par safe, read-only commands ki practice karein."
+],
+points:["Terminal ya command prompt kholna seekhein.","Current folder aur files dekhne ka concept samjhein.","Unknown commands ko bina samjhe run na karein."]
+}
+]
+},
+{
+id:"networking",
+title:"Networking Fundamentals",
+icon:"🌐",
+category:"Networking",
+level:"Beginner",
+duration:"5 lessons",
+description:"IP, DNS, routers, ports aur protocols ke core concepts seekhein.",
+lessons:[
+{
+title:"Network kya hota hai?",
+paragraphs:[
+"Network connected devices ka group hota hai jo information share karte hain. Home Wi-Fi ek chhota network hai; internet duniya bhar ke networks ko connect karta hai.",
+"Data network par packets ki shakal mein travel karta hai."
+],
+points:["LAN aam tor par chhota local network hota hai.","Router networks ke darmiyan traffic bhejta hai.","Wi-Fi wireless network connection ka aik tareeqa hai."]
+},
+{
+title:"IP addresses",
+paragraphs:[
+"IP address network par device ko identify karne ke liye use hota hai. IPv4 aur IPv6 do address formats hain.",
+"Private IP addresses local network mein use hote hain. Public IP internet par network ko identify karne mein madad karta hai."
+],
+points:["IP address ko network ka address samjhein.","Subnet addresses ke groups ko organize karta hai.","Apne network ki settings ko samajhna seekhein."]
+},
+{
+title:"DNS aur domain names",
+paragraphs:[
+"DNS, ya Domain Name System, domain names ko IP addresses se map karne mein madad karta hai.",
+"DNS ka basic flow samajhna web browsing aur network troubleshooting dono mein kaam aata hai."
+],
+points:["Domain name insaan ke liye yaad rakhna asaan hota hai.","DNS query name ke liye address dhoondti hai.","Suspicious links ko kholne se pehle URL check karein."]
+},
+{
+title:"Ports aur protocols",
+paragraphs:[
+"Protocol communication ke rules ka set hota hai. TCP aur UDP transport ke mukhtalif tareeqe hain; ports device par network services ko identify karne mein madad karte hain.",
+"Port number ko aik service ke darwaze jaisa samjha ja sakta hai."
+],
+points:["HTTP/HTTPS web communication ke liye use hote hain.","TCP delivery aur ordering ke liye checks karta hai.","UDP kam overhead ke sath data bhejta hai."]
+},
+{
+title:"Routers aur firewalls",
+paragraphs:[
+"Router traffic ko networks ke darmiyan forward karta hai. Firewall rules traffic ko allow ya block karne ke liye use hote hain.",
+"Firewall configured rules ke mutabiq traffic filter karta hai."
+],
+points:["Router ka admin password default na chhorein.","Router aur devices ke updates check karte rahein.","Firewall rules ko samjhe baghair change na karein."]
+}
+]
+},
+{
+id:"linux",
+title:"Linux Fundamentals",
+icon:"🐧",
+category:"Linux",
+level:"Beginner",
+duration:"5 lessons",
+description:"Linux desktop, terminal, files, users aur permissions samajhne ka course.",
+lessons:[
+{
+title:"Linux ka introduction",
+paragraphs:[
+"Linux aik operating system family hai jo servers, personal computers aur embedded devices mein use hoti hai. Iski mukhtalif distributions available hain.",
+"Beginner ke liye pehle Linux desktop aur terminal ke basic concepts samajhna behtar hai."
+],
+points:["Distribution Linux system ka packaged version hai.","Official source se software aur updates lein.","Learning ke liye authorized lab use karein."]
+},
+{
+title:"Terminal aur navigation",
+paragraphs:[
+"Terminal text-based interface hai. Is mein folders ke darmiyan jana aur files ki list dekhna possible hota hai.",
+"Commands ko pehle samjhein. Practice ke liye temporary learning folder use karein."
+],
+points:["Current directory ka concept seekhein.","Paths files aur folders ki location batate hain.","Command chalane se pehle uska result samajh lein."]
+},
+{
+title:"Files aur directories",
+paragraphs:[
+"Linux mein files aur directories hierarchical structure mein hoti hain. Har user ke apne files aur settings ho sakte hain.",
+"System directories ko samajhne mein waqt lagta hai; shuru mein apne home folder par focus karein."
+],
+points:["Home directory personal files ke liye hoti hai.","File names aur paths dhyan se check karein.","Backups ke baghair important data delete na karein."]
+},
+{
+title:"Users aur permissions",
+paragraphs:[
+"Linux permissions define karti hain ke file ka owner, group aur doosre users kya kar sakte hain.",
+"Admin privileges powerful hote hain. Unhein sirf tab use karein jab task ke liye zaroorat ho."
+],
+points:["Read, write aur execute permissions samjhein.","Daily work normal user account se karein.","Unknown scripts ko admin permission na dein."]
+},
+{
+title:"Updates aur logs",
+paragraphs:[
+"System updates bugs fix aur security improvements la sakte hain. Logs system aur applications ke events ka record rakhte hain.",
+"Logs ko privacy ke sath handle karein; un mein sensitive information ho sakti hai."
+],
+points:["Official update guidance follow karein.","Logs mein timestamps aur event descriptions dekhein.","Personal data public jagah share na karein."]
+}
+]
+},
+{
+id:"security",
+title:"Cybersecurity Fundamentals",
+icon:"🛡️",
+category:"Security",
+level:"Beginner",
+duration:"5 lessons",
+description:"Security principles, passwords, MFA, phishing aur safe digital habits.",
+lessons:[
+{
+title:"CIA triad",
+paragraphs:[
+"Confidentiality, Integrity aur Availability ko CIA triad kaha jata hai. Yeh security ke teen basic goals hain.",
+"Security decisions mein yeh socha jata hai ke data private rahe, sahi rahe, aur zaroorat par available ho."
+],
+points:["Confidentiality: data sirf authorized log dekhein.","Integrity: data mein ghair-mujaz tabdeeli na ho.","Availability: zaroori systems aur data waqt par mil sakein."]
+},
+{
+title:"Passwords aur MFA",
+paragraphs:[
+"Har account ke liye lamba aur unique password use karein. Password manager unique passwords manage karne mein madad de sakta hai.",
+"Multi-factor authentication (MFA) login ke waqt password ke ilawa aik additional verification step add karta hai."
+],
+points:["Har account ka password alag rakhein.","MFA enable karein jab available ho.","Verification codes kisi ke sath share na karein."]
+},
+{
+title:"Phishing awareness",
+paragraphs:[
+"Phishing aik social engineering technique hai jismein fake messages ya websites ke zariye logon se sensitive information lene ki koshish hoti hai.",
+"Message ki urgency, unknown sender, suspicious links aur unexpected attachments ko carefully check karein."
+],
+points:["Sender ka email address verify karein.","Unexpected links par click karne se bachein.","Suspicious message ko official channel se report karein."]
+},
+{
+title:"Malware awareness",
+paragraphs:[
+"Malware aise software ko kehte hain jo device ya data ko nuqsan pohanchane, access hasil karne, ya unwanted activity ke liye banaya gaya ho.",
+"Unknown downloads aur untrusted attachments se risk ho sakta hai."
+],
+points:["Operating system aur apps updated rakhein.","Trusted sources se software install karein.","Important data ka backup rakhein."]
+},
+{
+title:"Safe digital habits",
+paragraphs:[
+"Cybersecurity sirf tools ka naam nahi. Rozmarra ki safe habits accounts aur devices ko protect karne mein madad karti hain.",
+"Privacy settings, backups, updates aur careful browsing basic security ka hissa hain."
+],
+points:["Public Wi-Fi par sensitive activity mein ehtiyat karein.","Apne accounts par login alerts enable karein.","Personal information online limited share karein."]
+}
+]
+},
+{
+id:"defensive",
+title:"Defensive Security & SOC",
+icon:"🔎",
+category:"Security",
+level:"Beginner",
+duration:"4 lessons",
+description:"Blue team, monitoring, logs aur incident response ke introductory concepts.",
+lessons:[
+{
+title:"Defensive security kya hai?",
+paragraphs:[
+"Defensive security ka maqsad systems, networks aur information ko protect karna hai. Isay aksar blue team se relate kiya jata hai.",
+"Defenders security controls use karte hain, activity monitor karte hain aur possible incidents ko investigate karte hain."
+],
+points:["Prevention security risk ko kam karti hai.
